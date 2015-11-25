@@ -23,37 +23,14 @@ game.turn(0,0)
 
 #rotate the starting piece when resetting
 #automatically reset when the board is full, and tell us it's a draw
+# #automatically detect when someone has won, and notify
 #-----------------------
-#automatically detect when someone has won, and notify
-piece = :o
-puts "checking if game is won horizontal... #{game.has_won?(piece)}. Expect it to be false."
-game.turn(1,0)
-game.turn(0,1)
-game.turn(1,1)
-game.turn(0,2)
 
-# puts "checking if game is won horizontal... #{game.has_won?(piece)}. Expect it to be true."
+##HOMEWORK
+# Look over and re-implement any of the functionality we did in class
 
-# game.new_game
+# Create a new class to do the win checking using a new method
 
-piece = :x
-puts "checking if game is won vertical... #{game.has_won?(piece)}. Expect it to be false."
-game.turn(0,0)
-game.turn(0,1)
-game.turn(1,0)
-game.turn(0,2)
-game.turn(2,0)
+# Keep a scoresheet for the number of wins for noughts and for crosses
 
-# puts "checking if game is won vertical... #{game.has_won?(piece)}. Expect it to be true."
-
-# game.new_game
-
-piece = :o
-puts "checking if game is won diagonal... #{game.has_won?(piece)}. Expect it to be false."
-game.turn(0,0)
-game.turn(0,1)
-game.turn(1,1)
-game.turn(0,2)
-game.turn(2,2)
-
-# puts "checking if game is won diagonal... #{game.has_won?(piece)}. Expect it to be true."
+# Create a computer player to play against

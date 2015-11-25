@@ -15,24 +15,28 @@ class Game
     @board = [ [nil, nil, nil],[nil, nil, nil],[nil, nil, nil] ]
     @turn = 0
     @pieces.rotate!
+    puts "New game:\n"
     puts display_board
   end
 
   def place_piece(row, column)
     if out_of_range?(row, column)
       puts "Not in range...try again!"
-      return
-    elsif space_taken?(row, column)
+      return false
+    elsif square_taken?(row, column)
       puts "Not available... try again!"
-      return
+      return false
+    else
+      @board[row][column] = current_piece
     end
-    @board[row][column] = current_piece
   end
 
   def turn(row, column)
-    place_piece(row, column)
-    puts display_board
-    check_for_win
+    if place_piece(row, column)
+      puts display_board
+      check_for_win
+    end
+    display_turn
   end
 
   def display_turn
@@ -42,23 +46,17 @@ class Game
   def check_for_win
     if @win_checker.has_won?(current_piece, @board)
       puts "\n'#{current_piece}' wins!\n"
-      end_game
+      new_game
     elsif board_full?
       puts "\nIt's a draw!\n"
-      end_game
+      new_game
     else
       @turn += 1
-      display_turn
     end
   end
 
   def game_over?
     has_won?(:x) || has_won?(:o) || board_full?
-  end
-
-  def end_game
-    puts "Play again..."
-    new_game
   end
 
   private
@@ -72,7 +70,7 @@ class Game
       row > 2 || column > 2
     end
 
-    def space_taken?(row, column)
+    def square_taken?(row, column)
       @board[row][column]
     end
 
