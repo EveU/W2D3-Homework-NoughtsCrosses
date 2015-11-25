@@ -1,21 +1,25 @@
 require "pry-byebug"
 require_relative("game")
+require_relative("win_checker")
 
 #create game
-game = Game.new()
+win_checker_1 = WinChecker.new()
+game = Game.new(win_checker_1)
+
+binding.pry
 
 #place piece
 game.turn(0,0)
 
 #display board
-game.display_board
+#game.display_board
 
 #reset board
 # game.new_game
 
 #don't allow putting pieces out of range
-game.turn(5,0)
-game.turn(0,4)
+# game.turn(5,0)
+# game.turn(0,4)
 
 #rotate the starting piece when resetting
 #automatically reset when the board is full, and tell us it's a draw
@@ -50,7 +54,6 @@ game.turn(0,0)
 game.turn(0,1)
 game.turn(1,1)
 game.turn(0,2)
-binding.pry;""
 game.turn(2,2)
 
 # puts "checking if game is won diagonal... #{game.has_won?(piece)}. Expect it to be true."

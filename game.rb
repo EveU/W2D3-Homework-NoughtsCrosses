@@ -1,12 +1,9 @@
 class Game
-  def initialize
+  def initialize(win_checker)
     @board = [ [nil, nil, nil],[nil, nil, nil],[nil, nil, nil] ]
     @pieces = [:o, :x]
     @turn = 0
-  end
-
-  def current_piece
-    @pieces[@turn%2]
+    @win_checker = win_checker
   end
 
   def display_board
@@ -36,10 +33,6 @@ class Game
     place_piece(row, column)
     puts display_board
     check_for_win
-    @turn += 1
-    unless game_over?
-      display_turn
-    end
   end
 
   def display_turn
@@ -47,12 +40,15 @@ class Game
   end
 
   def check_for_win
-    if has_won?(current_piece)
+    if @win_checker.has_won?(current_piece, @board)
       puts "\n'#{current_piece}' wins!\n"
       end_game
     elsif board_full?
       puts "\nIt's a draw!\n"
       end_game
+    else
+      @turn += 1
+      display_turn
     end
   end
 
@@ -63,39 +59,6 @@ class Game
   def end_game
     puts "Play again..."
     new_game
-  end
-
-  def has_won?(symbol)
-    horizontal_line?(symbol, @board) || vertical_line?(symbol) || diagonal_line?(symbol)
-  end
-
-  def x_wins?
-    has_won?(:x)
-  end
-
-  def o_wins?
-    has_won?(:o)
-  end
-
-  def horizontal_line?(symbol, board)
-      board.any? { |row| row_has_winning_line(row, symbol) }
-  end
-
-  def vertical_line?(symbol)
-    transposed_board = @board.transpose
-    horizontal_line?(symbol, transposed_board)
-  end
-
-  def diagonal_line?(symbol)
-    middle_piece = @board[1][1]
-    return false if middle_piece != symbol
-    top_left_and_bottom_right = @board[0][0]==symbol && @board[2][2] == symbol
-    top_right_and_bottom_left = @board[0][2]==symbol && @board[2][0] == symbol
-    top_right_and_bottom_left || top_left_and_bottom_right
-  end
-
-  def row_has_winning_line(row, symbol)
-    row.all? { |square| square == symbol }
   end
 
   private
@@ -115,6 +78,10 @@ class Game
 
     def board_full?
       @board.flatten.all?
+    end
+
+    def current_piece
+      @pieces[@turn%2]
     end
 
 end
